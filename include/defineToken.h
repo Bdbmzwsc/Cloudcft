@@ -16,6 +16,11 @@ extern C TOKEN_DUOYINHAO = 9;
 extern C TOKEN_RIGHT_KUOHAO = 10;
 extern C TOKEN_SMT_END = 11;
 extern C TOKEN_STR_TYPE = 12;
+extern C TOKEN_NAMESPACE=13;
+extern C TOKEN_CLASS=14;
+extern C TOKEN_ZUOHUAKUO=15;
+extern C TOKEN_RIGHTHUAKUO=16;
+extern C TOKEN_DUOHUAKUO=17;
 extern map<int, string> tokenNameMap = {
 	{TOKEN_NUM, "num"},
 	{TOKEN_EOF, "EOF"},
@@ -27,7 +32,12 @@ extern map<int, string> tokenNameMap = {
 	{TOKEN_YINHAO, "\""},
 	{TOKEN_STR, "str"},
 	{TOKEN_DUOYINHAO, "\"\""},
-	{TOKEN_STR_TYPE, "string"}};
+	{TOKEN_STR_TYPE, "string"},
+	{TOKEN_NAMESPACE,"namespace"},
+	{TOKEN_CLASS,"class"},
+	{TOKEN_ZUOHUAKUO,"{"},
+	{TOKEN_RIGHTHUAKUO,"}"},
+	{TOKEN_DUOHUAKUO,"{}"}};
 extern map<string, int> tokenwordmap = {
 	{"num", TOKEN_NUM},
 	{"string", TOKEN_STR_TYPE}};

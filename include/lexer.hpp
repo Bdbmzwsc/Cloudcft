@@ -5,6 +5,8 @@
 #include <regex>
 #include <defineToken.h>
 using namespace std;
+#ifndef ler.hpp
+#define ler.hpp
 class lexer
 {
 private:
@@ -15,8 +17,14 @@ private:
 	string nexttoken;
 
 public:
-	lexer(string code);
-	~lexer();
+	lexer(string code)
+{
+	src = code;
+	line = 1;
+	nexttokenline = 0;
+	nexttokentype = 1;
+}
+	//~lexer();
 
 public:
 	// assert what the  token is,and skip this token
@@ -80,6 +88,7 @@ public:
 			int ln = nexttokenline;
 			line = nexttokenline;
 			nexttokenline = 0;
+			//cout<<nexttoken<<endl;
 			return make_tuple(ln, nexttokentype, nexttoken);
 		}
 		return MatchToken();
@@ -89,6 +98,7 @@ public:
 
 		//	cout<<src[0]<<endl;
 		// check ignored
+	//	cout<<nexttokentype<<endl;
 		if (isIgnored())
 			return make_tuple(line, KONG_GE, tokenNameMap[KONG_GE]);
 		// finish
@@ -122,13 +132,31 @@ public:
 			skipsrc(1);
 			return make_tuple(line, TOKEN_SMT_END, ";");
 		case 'n':
-
+			
 			if (src[1] == 'u' && src[2] == 'm')
 			{
 				skipsrc(3);
 				cout << src;
 				return make_tuple(line, TOKEN_NUM, "num");
-			};
+			}	
+			
+			if (next_code("namespace"))
+			{
+				skipsrc(9);
+				return make_tuple(line, TOKEN_NAMESPACE, tokenNameMap[TOKEN_NAMESPACE]);
+			}
+		case 'c':
+			if (next_code("class"))
+			{
+				skipsrc(5);
+				return make_tuple(line, TOKEN_CLASS, tokenNameMap[TOKEN_CLASS]);
+			}
+		case '{':
+			skipsrc(1);
+			return make_tuple(line, TOKEN_ZUOHUAKUO, tokenNameMap[TOKEN_ZUOHUAKUO]);
+		case '}':
+			skipsrc(1);
+			return make_tuple(line, TOKEN_RIGHTHUAKUO, tokenNameMap[TOKEN_RIGHTHUAKUO]);
 		}
 
 		// check multiple character token
@@ -159,7 +187,8 @@ public:
 	bool next_code(string str)
 	{
 		int len = str.length() - 1;
-		if (str.length() < src.length() && str.compare(src.substr(str.length())) == 0)
+
+		if (str.length() < src.length() && str.compare(src.substr(0,str.length())) == 0)
 		{
 			//	src.erase(0, 2);
 			return true;
@@ -315,14 +344,11 @@ private:
 	}
 };
 
-lexer::lexer(string code)
-{
-	src = code;
-	line = 0;
-	nexttokenline = 0;
-	nexttokentype = 1;
-}
 
-lexer::~lexer()
+
+
+
+/*lexer::~lexer()
 {
-}
+}*/
+#endif
