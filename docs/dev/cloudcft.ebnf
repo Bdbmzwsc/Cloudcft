@@ -1,0 +1,10 @@
+SourceCode::= Namespace+;
+Namespace::= 'namespace' Ignored Name Ignored '{' Ignored Class+ Ignored '}' Ignored;
+Class::= 'class' Ignored Name Ignored '{' Ignored Function+ Ignored '}' Ignored;
+Function::= Data_type Ignored Name Ignored '(){' Ignored Statement+ Ignored '}' Ignored;
+Statement::= (AssignmentVar) Ignored;
+AssignmentVar::= Data_type Ignored Name Ignored '=' Ignored Value Ignored;
+Name::= [_a-zA-Z][_A-Z0-9a-z];
+Data_type::= 'num';
+Value::= [1-9][0-9];
+
